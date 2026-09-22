@@ -6,8 +6,9 @@ public class PriorityQueueTests
 	#region Enqueue
 
 	[Fact]
-	public void Enqueue_WhenNotAddingDuplicates_IncreasesCount()
+	public void Enqueue_IncreasesCount()
 	{
+		// Rename suggested by Copilot.
 		PriorityQueue<int> queue = new PriorityQueue<int>();
 
 		queue.Enqueue(1);
@@ -19,28 +20,13 @@ public class PriorityQueueTests
 		queue.Enqueue(-1);
 		int count3 = queue.Count;
 
-		Assert.Equal(1, count1);
-		Assert.Equal(2, count2);
-		Assert.Equal(3, count3);
-	}
-
-	[Fact]
-	public void Enqueue_WhenAddingDuplicates_IncreasesCount()
-	{
-		PriorityQueue<int> queue = new PriorityQueue<int>();
-
 		queue.Enqueue(1);
-		int count1 = queue.Count;
-
-		queue.Enqueue(1);
-		int count2 = queue.Count;
-
-		queue.Enqueue(1);
-		int count3 = queue.Count;
+		int count4 = queue.Count;
 
 		Assert.Equal(1, count1);
 		Assert.Equal(2, count2);
 		Assert.Equal(3, count3);
+		Assert.Equal(4, count4);
 	}
 
 	[Fact]
@@ -64,6 +50,27 @@ public class PriorityQueueTests
 		Assert.Equal(3, peek2);
 		Assert.Equal(3, peek3);
 		Assert.Equal(3, peek4);
+	}
+
+	[Fact]
+	public void Enqueue_MaintainsConsistency()
+	{
+		// Suggested by Copilot.
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+
+		queue.Enqueue(5);
+		bool isConsistent = queue.IsConsistent();
+
+		queue.Enqueue(3);
+		isConsistent = isConsistent && queue.IsConsistent();
+
+		queue.Enqueue(6);
+		isConsistent = isConsistent && queue.IsConsistent();
+
+		queue.Enqueue(-1);
+		isConsistent = isConsistent && queue.IsConsistent();
+
+		Assert.True(isConsistent);
 	}
 
 	#endregion Enqueue
@@ -95,6 +102,17 @@ public class PriorityQueueTests
 		// return an item at index 0.
 	}
 
+	[Fact]
+	public void Peek_DoesNotRemoveItem()
+	{
+		// Suggested by Copilot.
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+		queue.Enqueue(1);
+
+		Assert.Equal(1, queue.Peek());
+		Assert.Equal(1, queue.Count);
+	}
+
 	#endregion Peek
 
 
@@ -106,6 +124,19 @@ public class PriorityQueueTests
 		PriorityQueue<int> queue = new PriorityQueue<int>();
 
 		Assert.Throws<InvalidOperationException>(() => queue.Dequeue());
+	}
+
+	[Fact]
+	public void Dequeue_WhenSingleItem_ReturnsItemAndClearsQueue()
+	{
+		// Suggested by Copilot.
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+		queue.Enqueue(1);
+
+		int result = queue.Dequeue();
+
+		Assert.Equal(1, result);
+		Assert.Equal(0, queue.Count);
 	}
 
 	[Fact]
@@ -152,6 +183,31 @@ public class PriorityQueueTests
 		Assert.Equal(0, queue.Count);
 	}
 
+	[Fact]
+	public void Dequeue_MaintainsConsistency()
+	{
+		// Suggested by Copilot.
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+		queue.Enqueue(5);
+		queue.Enqueue(3);
+		queue.Enqueue(6);
+		queue.Enqueue(-1);
+
+		queue.Dequeue();
+		bool isConsistent = queue.IsConsistent();
+
+		queue.Dequeue();
+		isConsistent = isConsistent && queue.IsConsistent();
+
+		queue.Dequeue();
+		isConsistent = isConsistent && queue.IsConsistent();
+
+		queue.Dequeue();
+		isConsistent = isConsistent && queue.IsConsistent();
+
+		Assert.True(isConsistent);
+	}
+
 	#endregion Dequeue
 
 
@@ -162,14 +218,36 @@ public class PriorityQueueTests
 	{
 		PriorityQueue<int> queue = new PriorityQueue<int>();
 
-		try
-		{
-			queue.Clear();
-		}
-		catch
-		{
-			Assert.Fail();
-		}
+		queue.Clear();
+
+		Assert.Equal(0, queue.Count);
+
+		// Suggested by Copilot.
+		Assert.Throws<InvalidOperationException>(() => queue.Peek());
+		Assert.Throws<InvalidOperationException>(() => queue.Dequeue());
+	}
+
+	[Fact]
+	public void Clear_WhenNotEmpty_RemovesAllItems()
+	{
+		// Suggested by Copilot.
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+		queue.Enqueue(5);
+		queue.Enqueue(3);
+		queue.Enqueue(6);
+		queue.Enqueue(4);
+
+		queue.Clear();
+
+		Assert.False(queue.Contains(5));
+		Assert.False(queue.Contains(3));
+		Assert.False(queue.Contains(6));
+		Assert.False(queue.Contains(4));
+		Assert.Equal(0, queue.Count);
+
+		// Suggested by Copilot.
+		Assert.Throws<InvalidOperationException>(() => queue.Peek());
+		Assert.Throws<InvalidOperationException>(() => queue.Dequeue());
 	}
 
 	#endregion Clear
