@@ -43,6 +43,29 @@ public class PriorityQueueTests
 		Assert.Equal(3, count3);
 	}
 
+	[Fact]
+	public void Enqueue_KeepsHighesPriorityAtTop()
+	{
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+
+		queue.Enqueue(5);
+		int peek1 = queue.Peek(); // 5
+
+		queue.Enqueue(3);
+		int peek2 = queue.Peek(); // 3
+
+		queue.Enqueue(6);
+		int peek3 = queue.Peek(); // 3
+
+		queue.Enqueue(4);
+		int peek4 = queue.Peek(); // 3
+
+		Assert.Equal(5, peek1);
+		Assert.Equal(3, peek2);
+		Assert.Equal(3, peek3);
+		Assert.Equal(3, peek4);
+	}
+
 	#endregion Enqueue
 
 
