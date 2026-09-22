@@ -56,6 +56,22 @@ public class PriorityQueueTests
 		Assert.Throws<InvalidOperationException>(() => queue.Peek());
 	}
 
+	[Fact]
+	public void Peek_WhenNotEmpty_ReturnsFirstItem()
+	{
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+		queue.Enqueue(1);
+
+		int result = queue.Peek();
+
+		Assert.Equal(1, result);
+
+		// Since the Peek method is not responsible for the actual order of the
+		// items and it only returns the first item on the internal list, we can
+		// assume that if it returns the only item in the list, it will always
+		// return an item at index 0.
+	}
+
 	#endregion Peek
 
 
