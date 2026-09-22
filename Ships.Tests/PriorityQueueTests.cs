@@ -109,4 +109,24 @@ public class PriorityQueueTests
 	}
 
 	#endregion Dequeue
+
+
+	#region Clear
+
+	[Fact]
+	public void Clear_WhenEmpty_ThrowsNoExceptions()
+	{
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+
+		try
+		{
+			queue.Clear();
+		}
+		catch
+		{
+			Assert.Fail();
+		}
+	}
+
+	#endregion Clear
 }
