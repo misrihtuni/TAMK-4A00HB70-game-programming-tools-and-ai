@@ -108,6 +108,50 @@ public class PriorityQueueTests
 		Assert.Throws<InvalidOperationException>(() => queue.Dequeue());
 	}
 
+	[Fact]
+	public void Dequeue_WhenNoDuplicates_RemovesLowestPriorityAndReducesCount()
+	{
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+		queue.Enqueue(5);
+		queue.Enqueue(3);
+		queue.Enqueue(6);
+		queue.Enqueue(4);
+
+		Assert.Equal(3, queue.Dequeue());
+		Assert.Equal(3, queue.Count);
+
+		Assert.Equal(4, queue.Dequeue());
+		Assert.Equal(2, queue.Count);
+
+		Assert.Equal(5, queue.Dequeue());
+		Assert.Equal(1, queue.Count);
+
+		Assert.Equal(6, queue.Dequeue());
+		Assert.Equal(0, queue.Count);
+	}
+
+	[Fact]
+	public void Dequeue_WhenHasDuplicates_RemovesOnlyOneOccurenceAndReducesCount()
+	{
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+		queue.Enqueue(5);
+		queue.Enqueue(3);
+		queue.Enqueue(5);
+		queue.Enqueue(3);
+
+		Assert.Equal(3, queue.Dequeue());
+		Assert.Equal(3, queue.Count);
+
+		Assert.Equal(3, queue.Dequeue());
+		Assert.Equal(2, queue.Count);
+
+		Assert.Equal(5, queue.Dequeue());
+		Assert.Equal(1, queue.Count);
+
+		Assert.Equal(5, queue.Dequeue());
+		Assert.Equal(0, queue.Count);
+	}
+
 	#endregion Dequeue
 
 
