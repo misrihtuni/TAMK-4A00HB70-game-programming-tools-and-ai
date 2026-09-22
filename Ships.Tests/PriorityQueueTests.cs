@@ -173,4 +173,35 @@ public class PriorityQueueTests
 	}
 
 	#endregion Clear
+
+
+	#region Contains
+
+	[Fact]
+	public void Contains_WhenEmpty_ReturnsFalse()
+	{
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+
+		Assert.False(queue.Contains(1));
+	}
+
+	[Fact]
+	public void Contains_WhenExists_ReturnsTrue()
+	{
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+		queue.Enqueue(1);
+
+		Assert.True(queue.Contains(1));
+	}
+
+	[Fact]
+	public void Contains_WhenNotExists_ReturnsFalse()
+	{
+		PriorityQueue<int> queue = new PriorityQueue<int>();
+		queue.Enqueue(1);
+
+		Assert.False(queue.Contains(99));
+	}
+
+	#endregion Contains
 }
