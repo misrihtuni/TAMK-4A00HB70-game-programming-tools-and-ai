@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c6g22t7q8wmpx"]
 
 [ext_resource type="PackedScene" uid="uid://bbn357rqiut5j" path="res://Art/Models/GLB format/rocks-a.glb" id="1_eynwf"]
+[ext_resource type="PackedScene" uid="uid://d0vf0p215esil" path="res://Scenes/LevelObjects/Obstacle.tscn" id="2_a7hh8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yky2d"]
 size = Vector3(5.0733643, 2.9174805, 4.0285645)
@@ -10,3 +11,5 @@ size = Vector3(5.0733643, 2.9174805, 4.0285645)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1" unique_id=1172607468]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1317749, 1.4501953, 0.122924805)
 shape = SubResource("BoxShape3D_yky2d")
+
+[node name="NavigationObject" parent="." index="2" unique_id=1017269658 instance=ExtResource("2_a7hh8")]

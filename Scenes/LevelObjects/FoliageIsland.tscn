@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://klyxojqybyf7"]
+
+[ext_resource type="PackedScene" uid="uid://cxxjtsb8te2kk" path="res://Art/Models/GLB format/patch-grass-foliage.glb" id="1_3vaa7"]
+[ext_resource type="PackedScene" uid="uid://bvysahyvilf7d" path="res://Scenes/LevelObjects/NavigationObject.tscn" id="2_tqhxw"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tqhxw"]
+points = PackedVector3Array(-1.018379, 0, -2.0561104, -2.5436249, 0, -0.92863095, -0.81501293, 0.24995582, -1.6451298, 0.42789483, 0.5396573, -1.3549075, 0.7226207, 0, -1.9232763, -2.6365333, 0, -0.1324315, -2.1095362, 0.24995582, -0.106267214, -2.0346935, 0.24995582, -0.74266326, 0.23640037, 0.56394625, -1.2124128, 0.40776467, 0.56394625, -1.2663515, 0.5192547, 0.5396573, -1.3343786, 1.1912918, 0, -1.7280505, -2.4083915, 0, 1.4354131, -1.5701516, 0.56394625, 1.3480644, 0.49912453, 0.56394625, -1.2458225, 1.6599631, 0.5396573, 0.42305636, 1.8829432, 0.24995582, -0.5087948, 2.354195, 0, -0.6355909, -2.2210264, 0, 1.8725579, -1.5701516, 0.5396573, 1.4390357, -1.4762108, 0.56394625, 1.3480644, 1.5856361, 0.56394625, 0.4749825, 2.5167847, 0, 0.5993633, 2.6365333, 0, -0.044680595, 2.1090202, 0.24995582, -0.035825014, -1.8602321, 0, 2.0400095, -1.4762108, 0.5396573, 1.4390357, -0.4918983, 0, 2.0561104, 1.5634418, 0.4040805, 0.70804596, 2.0186925, 0, 1.0248349, 0.2874999, 0.24995582, 1.5090756, 0.35976195, 0, 1.8866463)
+
+[node name="patch-grass-foliage2" unique_id=2083180904 instance=ExtResource("1_3vaa7")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1" unique_id=818858012]
+shape = SubResource("ConvexPolygonShape3D_tqhxw")
+debug_color = Color(0.9299402, 0.26564416, 0, 0.41960785)
+
+[node name="NavigationObject" parent="." index="2" unique_id=1017269658 instance=ExtResource("2_tqhxw")]
+MovementCost = -1
+Priority = 100

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://d0vf0p215esil"]
+
+[ext_resource type="PackedScene" uid="uid://bvysahyvilf7d" path="res://Scenes/LevelObjects/NavigationObject.tscn" id="1_jafxv"]
+
+[node name="NavigationObject" unique_id=1017269658 instance=ExtResource("1_jafxv")]
+MovementCost = -1
+Priority = 100
