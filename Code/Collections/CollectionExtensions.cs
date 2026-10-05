@@ -23,6 +23,12 @@ namespace GA.Collections
 			list[indexB] = temp;
 		}
 
+		/// <summary>
+		/// Reverses the order of items in the <paramref name="list"/>.
+		/// </summary>
+		/// <typeparam name="T">Type of the item stored in the list.</typeparam>
+		/// <param name="list">The list to reverse.</param>
+		/// <exception cref="System.ArgumentNullException">Thrown if the given list is null.</exception>
 		public static void Reverse<T>(this IList<T> list)
 		{
 			if (list == null)

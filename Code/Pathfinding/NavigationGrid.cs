@@ -79,6 +79,23 @@ namespace GA.Ships.Pathfinding
 			}
 		}
 
+		/// <summary>
+		/// Calculates the movement cost for the <see cref="Cell"/> at position <paramref name="cellPosition"/> based
+		/// on overlapping <see cref="NavigationObject"/> nodes. If multiple <see cref="NavigationObject"/>s occupy the
+		/// same cell, picks the cost for the one with the highest priority.
+		/// </summary>
+		///
+		/// <param name="cellPosition">Position of the cell in world coordinates.</param>
+		///
+		/// <returns>The movement cost for the navigation object with the highest priority.</returns>
+		///
+		/// <remarks>
+		/// The method uses shape cast to check for collisions with other nodes in the 3D world. If a collision
+		/// happens, the algorithm checks if the node has a <see cref="NavigationObject"/> node in its node tree. If
+		/// one is found, the cost is pulled from the <see cref="NavigationObject.MovementCost"/> property. If multiple
+		/// nodes with the <see cref="NavigationObject"/> occupy the same cell, the one with the lowest value for the
+		/// property <see cref="NavigationObject.Priority"/> is picked.
+		/// </remarks>
 		private int CalculateMovementCost(Vector3 cellPosition)
 		{
 			BoxShape3D boxShape = new BoxShape3D
@@ -119,11 +136,10 @@ namespace GA.Ships.Pathfinding
 		}
 
 		/// <summary>
-		/// Returns a cell which is in coordinates worldPosition (in global space).
+		/// Returns the cell in the given world position.
 		/// </summary>
-		/// <param name="worldPosition"></param>
-		/// <returns></returns>
-		/// <exception cref="InvalidOperationException"></exception>
+		/// <param name="worldPosition">Position of the cell in world coordinates (global space).</param>
+		/// <exception cref="InvalidOperationException">Thrown when the grid has no cells.</exception>
 		public Cell GetCell(Vector3 worldPosition)
 		{
 			if (_cells == null || _cells.Length == 0)
