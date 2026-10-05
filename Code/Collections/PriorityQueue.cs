@@ -9,8 +9,15 @@ namespace GA.Collections
 	{
 		private List<T> _data = new List<T>();
 
+		/// <summary>
+		/// The number of items in the queue.
+		/// </summary>
 		public int Count => _data.Count;
 
+		/// <summary>
+		/// Adds an item to the queue.
+		/// </summary>
+		/// <param name="item">Item to add to the queue.</param>
 		public void Enqueue(T item)
 		{
 			// 1. Add the item to the end of the list
@@ -39,6 +46,11 @@ namespace GA.Collections
 			}
 		}
 
+		/// <summary>
+		/// Removes an item from the top of the queue and returns it.
+		/// </summary>
+		/// <returns>The item at the top of the queue.</returns>
+		/// <exception cref="InvalidOperationException">Thrown when the queue is empty.</exception>
 		public T Dequeue()
 		{
 			if (Count == 0)
@@ -94,6 +106,10 @@ namespace GA.Collections
 			return result;
 		}
 
+		/// <summary>
+		/// Returns the item at the top of the queue without removing it.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">Thrown when the queue is empty.</exception>
 		public T Peek()
 		{
 			if (Count == 0)
@@ -104,16 +120,33 @@ namespace GA.Collections
 			return _data[0];
 		}
 
+		/// <summary>
+		/// Removes all items from the queue.
+		/// </summary>
 		public void Clear()
 		{
 			_data.Clear();
 		}
 
+		/// <summary>
+		/// Checks if the queue contains <paramref name="item"/>.
+		/// </summary>
+		///
+		/// <param name="item">The item to look for.</param>
+		///
+		/// <returns>
+		/// <c>true</c> if the <paramref name="item"/> is in the queue,
+		/// <c>false</c> otherwise.
+		/// <returns>
 		public bool Contains(T item)
 		{
 			return _data.Contains(item);
 		}
 
+		/// <summary>
+		/// Checks if the order of the items in the queue is consistent.
+		/// Used for testing and debug purposes.
+		/// </summary>
 		public bool IsConsistent()
 		{
 			if (Count == 0)
