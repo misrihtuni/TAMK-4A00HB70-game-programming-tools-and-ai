@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="SimplifyPath" format=3 uid="uid://ct50ivg3y3mii"]
+
+[ext_resource type="Script" uid="uid://br3pa87fyiyre" path="res://Code/Pathfinding/PathPostProcessors/SimplifyPath.cs" id="1_umk5v"]
+
+[resource]
+script = ExtResource("1_umk5v")
+metadata/_custom_type_script = "uid://br3pa87fyiyre"

@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://ftx3scowqqc5" path="res://Code/Pathfinding/NavigationObject.cs" id="13_06um6"]
 [ext_resource type="Script" uid="uid://dk2xdb5406g73" path="res://Code/Pathfinding/PrototypeSeeker.cs" id="15_ug0sv"]
 [ext_resource type="Script" uid="uid://bxf323gmb80ay" path="res://Code/Pathfinding/PathDebugDrawer.cs" id="16_0wsr5"]
+[ext_resource type="Resource" uid="uid://ct50ivg3y3mii" path="res://Data/SimplifyPath.tres" id="16_jgorv"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3vykb"]
 
@@ -599,8 +600,9 @@ Priority = 10
 [node name="PrototypeSeeker" type="Node3D" parent="." unique_id=638117760 node_paths=PackedStringArray("_targetNode")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.318624, 0, -9.516527)
 script = ExtResource("15_ug0sv")
-_algorithm = 2
+_algorithm = 3
 _targetNode = NodePath("Target")
+_postProcessors = Array[Resource]([ExtResource("16_jgorv")])
 
 [node name="Target" type="Node3D" parent="PrototypeSeeker" unique_id=1206835674]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68.94413, 0, -4.886297)

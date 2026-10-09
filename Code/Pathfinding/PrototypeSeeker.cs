@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GA.Common;
 using System.Diagnostics;
 using System;
+using GA.Ships.Pathfinding;
 
 namespace GA.Ships.Navigation
 {
@@ -19,6 +20,7 @@ namespace GA.Ships.Navigation
 		[Export] private PathfinderAlgorithm _algorithm = PathfinderAlgorithm.None;
 		[Export] Node3D _targetNode = null;
 		[Export] private float _pathfinderTimeStep = 1.0f;
+		[Export] private PathPostprocessorResource[] _postProcessors = null;
 
 		private IList<Vector3> _currentPath = null;
 		private PathDebugDrawer _pathDebugDrawer = null;
@@ -61,16 +63,27 @@ namespace GA.Ships.Navigation
 					// Call the Dijkstra method here
 					_currentPath = Level.Current.Pathfinder.Dijkstra(GlobalPosition, _targetNode.GlobalPosition);
 					break;
-				// case PathfinderAlgorithm.AStar:
-				// 	// Call the A* method here
-				// 	_currentPath = Level.Current.Pathfinder.AStar(GlobalPosition, _targetNode.GlobalPosition);
-				// 	break;
+				case PathfinderAlgorithm.AStar:
+					// Call the A* method here
+					_currentPath = Level.Current.Pathfinder.AStar(GlobalPosition, _targetNode.GlobalPosition);
+					break;
 				default:
 					GD.Print("No pathfinding algorithm selected.");
 					break;
 			}
+
+			ProsessPath();
+
 			stopwatch.Stop();
 			GD.Print($"Pathfinding took {stopwatch.ElapsedMilliseconds} ms");
+		}
+
+		private void ProsessPath()
+		{
+			foreach (var postProcessor in _postProcessors)
+			{
+				_currentPath = postProcessor.PostProcess(_currentPath);
+			}
 		}
 	}
 }
