@@ -93,7 +93,28 @@ namespace GA.Ships.Pathfinding
 			return null;
 		}
 
-		public IList<Cell> GetReachableCells(Cell start, int maxSteps, bool includeDiagonal)
+		[Obsolete("Use GetReachableCellsByMaxDistance")]
+		public IList<Cell> GetReachableCells(Cell start, int maxSteps, bool includeDiagonal) =>
+			GetReachableCellsByMaxDistance(start, maxSteps, includeDiagonal);
+
+		/// <summary>
+		/// Finds all the <see cref="Cell"/>s that are within
+		/// <paramref name="maxSteps"/> cells away from the
+		/// <paramref name="start"/> cell. This method does not take movement
+		/// cost into account.
+		/// </summary>
+		///
+		/// <param name="start">The cell where the search flood-fill starts from.</param>
+		/// <param name="maxSteps">The maximum distance (in cells) from the <paramref name="start"/> cell.</param>
+		/// <param name="includeDiagonal">Whether diagonal movement should be allowed or not.</param>
+		///
+		/// <returns>A list containing all the reachable cells.</returns>
+		///
+		/// <remarks>
+		/// - This method is a simple flood-fill algorithm based on breadth-first search.<br/>
+		/// - Allowing diagonal movement results in a square-shaped area of accepted cells.
+		/// </remarks>
+		public IList<Cell> GetReachableCellsByMaxDistance(Cell start, int maxSteps, bool includeDiagonal)
 		{
 			Queue<Cell> frontier = new Queue<Cell>();
 			Dictionary<Cell, (Cell, int)> cameFrom = new Dictionary<Cell, (Cell, int)>();
