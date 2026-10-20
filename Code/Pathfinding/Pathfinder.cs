@@ -93,7 +93,28 @@ namespace GA.Ships.Pathfinding
 			return null;
 		}
 
-		public IList<Cell> GetReachableCells(Cell start, int maxSteps, bool includeDiagonal)
+		[Obsolete("Use GetReachableCellsByMaxDistance")]
+		public IList<Cell> GetReachableCells(Cell start, int maxSteps, bool includeDiagonal) =>
+			GetReachableCellsByMaxDistance(start, maxSteps, includeDiagonal);
+
+		/// <summary>
+		/// Finds all the <see cref="Cell"/>s that are within
+		/// <paramref name="maxSteps"/> cells away from the
+		/// <paramref name="start"/> cell. This method does not take movement
+		/// cost into account.
+		/// </summary>
+		///
+		/// <param name="start">The cell where the search flood-fill starts from.</param>
+		/// <param name="maxSteps">The maximum distance (in cells) from the <paramref name="start"/> cell.</param>
+		/// <param name="includeDiagonal">Whether diagonal movement should be allowed or not.</param>
+		///
+		/// <returns>A list containing all the reachable cells.</returns>
+		///
+		/// <remarks>
+		/// - This method is a simple flood-fill algorithm based on breadth-first search.<br/>
+		/// - Allowing diagonal movement results in a square-shaped area of accepted cells.
+		/// </remarks>
+		public IList<Cell> GetReachableCellsByMaxDistance(Cell start, int maxSteps, bool includeDiagonal)
 		{
 			Queue<Cell> frontier = new Queue<Cell>();
 			Dictionary<Cell, (Cell, int)> cameFrom = new Dictionary<Cell, (Cell, int)>();
@@ -242,6 +263,103 @@ namespace GA.Ships.Pathfinding
 			return RetracePath(startCell, endCell);
 		}
 
+		/// <summary>
+		/// Finds all the <see cref="Cell"/>s that are reachable using no more
+		/// than <paramref name="maxMovementPoints"/> points (i.e., the
+		/// movement cost is taken into account). This method uses Dijkstra's
+		/// algorithm as its base.
+		/// </summary>
+		///
+		/// <param name="start">The cell where the flood-fill starts from.</param>
+		/// <param name="maxMovementPoints">The maximum number of points that can be used to reach a specific cell.</param>
+		/// <param name="useDiagonal">Whether or not diagonal movement is allowed.</param>
+		///
+		/// <exception cref="ArgumentNullException"><paramref name="start"/> is null.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="maxMovementPoints"/> is less than 1.</exception>
+		public IList<Cell> GetReachableCellsByMaxTotalCost(Cell start, int maxMovementPoints, bool useDiagonal)
+		{
+			if (start == null)
+			{
+				throw new ArgumentNullException(nameof(start));
+			}
+
+			if (maxMovementPoints < 0)
+			{
+				throw new ArgumentOutOfRangeException($"{nameof(maxMovementPoints)} must be non-negative");
+			}
+
+			Dictionary<Cell, float> movementPointsUsed = new Dictionary<Cell, float>();
+
+			_frontier.Clear();
+			_visited.Clear();
+			_grid.ResetPathData();
+
+			start.Parent = null; // Didn't come to start from anywhere.
+			start.GCost = 0; // First cell, no points used yet.
+			start.HCost = 0; // Clear in case A* was used earlier.
+
+			_frontier.Enqueue(new FrontierEntry(start, 0));
+
+			while (_frontier.Count > 0)
+			{
+				FrontierEntry entry = _frontier.Dequeue();
+				Cell current = entry.Cell;
+
+				// Skip current if it has already been processed.
+				if (!_visited.Add(current))
+				{
+					continue;
+				}
+
+				movementPointsUsed[current] = current.GCost;
+
+				// Check neighbouring cells.
+				IList<Cell> neighbours = _grid.GetNeighbours(current, useDiagonal);
+				foreach (Cell neighbour in neighbours)
+				{
+					// Skip non-accessible and visited cells.
+					if (!neighbour.IsWalkable || _visited.Contains(neighbour))
+					{
+						continue;
+					}
+
+					int costToNeighbour = _grid.GetCostToNeighbour(current, neighbour);
+					if (costToNeighbour <= 0)
+					{
+						GD.PrintErr("Cost to neighbour was non-positive. Is the cell really a neighbour?");
+						continue;
+					}
+
+					int costSoFar = current.GCost + costToNeighbour;
+
+					// maxMovementPoints is multiplied by 10 because diagonal
+					// distance is approx 1.4 times the axial distance and
+					// we're using ints instead of floats.
+					if (costSoFar > maxMovementPoints * 10)
+					{
+						// There are not enough movement points left to move to
+						// the neighbour.
+						continue;
+					}
+
+					if (costSoFar < neighbour.GCost)
+					{
+						// Moving to the neighbour from the current cell is
+						// cheaper than previously discovered route(s).
+
+						neighbour.GCost = costSoFar;
+						neighbour.HCost = 0;
+						neighbour.Parent = current;
+
+						_frontier.Enqueue(new FrontierEntry(neighbour, costSoFar));
+					}
+				}
+			}
+
+			return movementPointsUsed.Keys.ToList();
+		}
+		#endregion
+
 		#region A*
 		public IList<Vector3> AStar(Vector3 startPosition, Vector3 endPosition)
 		{
@@ -343,8 +461,6 @@ namespace GA.Ships.Pathfinding
 			// Manhattan distance
 			return (Mathf.Abs(startCell.X - endCell.X) + Mathf.Abs(startCell.Y - endCell.Y)) * 10;
 		}
-		#endregion
-
 		#endregion
 
 		#region Common
