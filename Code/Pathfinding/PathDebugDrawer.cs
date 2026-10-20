@@ -11,11 +11,13 @@ namespace GA.Ships.Navigation
 
 		private MeshInstance3D _debugMeshInstance;
 		private StandardMaterial3D _pathMaterial;
+		private Node3D _pointMeshParent;
 
 		public override void _Ready()
 		{
 			_pathMaterial = new StandardMaterial3D
 			{
+				AlbedoColor = _pathColor,
 				ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
 				VertexColorUseAsAlbedo = true,
 				DisableFog = true,
@@ -29,6 +31,9 @@ namespace GA.Ships.Navigation
 				Visible = true
 			};
 			AddChild(_debugMeshInstance);
+			_pointMeshParent = new Node3D();
+			_pointMeshParent.Name = "PointMeshParent";
+			AddChild(_pointMeshParent);
 		}
 
 		public void DrawPath(IList<Vector3> path)
@@ -37,10 +42,26 @@ namespace GA.Ships.Navigation
 			tool.Begin(Mesh.PrimitiveType.Triangles);
 			tool.SetColor(_pathColor);
 
+			foreach (var child in _pointMeshParent.GetChildren())
+			{
+				child.Free();
+			}
+
 			if (path != null)
 			{
 				for (int i = 1; i < path.Count; i++)
 				{
+					var pointMesh = new MeshInstance3D()
+					{
+						Mesh = new BoxMesh()
+						{
+							Size = new Vector3(0.5f, 0.5f, 0.5f),
+							Material = _pathMaterial
+						},
+					};
+					_pointMeshParent.AddChild(pointMesh);
+					pointMesh.GlobalPosition = path[i];
+
 					Vector3 previous = ToLocal(path[i - 1]);
 					Vector3 current = ToLocal(path[i]);
 					AddPathSegment(tool, previous, current);
