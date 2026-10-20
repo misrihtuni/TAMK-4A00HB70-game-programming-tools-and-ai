@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 namespace GA.Ships.Pathfinding.Testing
@@ -7,8 +8,15 @@ namespace GA.Ships.Pathfinding.Testing
 	{
 		[Signal] public delegate void ConfigurationChangedEventHandler();
 
+		private enum FloodFillType
+		{
+			BreadthFirstSearch,
+			Dijkstra,
+		}
+
 		private int _distance = 5;
 		private bool _includeDiagonals = false;
+		private FloodFillType _algorithm = FloodFillType.BreadthFirstSearch;
 		private Vector3 _lastPosition;
 
 		[Export]
@@ -33,6 +41,17 @@ namespace GA.Ships.Pathfinding.Testing
 			}
 		}
 
+		[Export]
+		private FloodFillType Algorith
+		{
+			get => _algorithm;
+			set
+			{
+				_algorithm = value;
+				EmitSignal(SignalName.ConfigurationChanged);
+			}
+		}
+
 		public override void _Ready()
 		{
 			ConfigurationChanged += PerformDistanceTest;
@@ -51,7 +70,19 @@ namespace GA.Ships.Pathfinding.Testing
 		private void PerformDistanceTest()
 		{
 			NavigationGrid.Cell startCell = Level.Current.Grid.GetCell(GlobalPosition);
-			var cells = Level.Current.Pathfinder.GetReachableCells(startCell, _distance, _includeDiagonals);
+			IList<NavigationGrid.Cell> cells = null;
+			switch (_algorithm)
+			{
+				case FloodFillType.BreadthFirstSearch:
+					cells = Level.Current.Pathfinder.GetReachableCellsByMaxDistance(startCell, _distance, _includeDiagonals);
+					break;
+				case FloodFillType.Dijkstra:
+					cells = Level.Current.Pathfinder.GetReachableCellsByMaxTotalCost(startCell, _distance, _includeDiagonals);
+					break;
+				default:
+					GD.PushError("Unknown algorith selected for distande test.");
+					return;
+			}
 			Level.Current.Grid.SetHighlightedCells(cells);
 		}
 	}
