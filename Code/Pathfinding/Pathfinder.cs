@@ -241,6 +241,7 @@ namespace GA.Ships.Pathfinding
 
 			return RetracePath(startCell, endCell);
 		}
+		#endregion
 
 		#region A*
 		public IList<Vector3> AStar(Vector3 startPosition, Vector3 endPosition)
@@ -343,8 +344,6 @@ namespace GA.Ships.Pathfinding
 			// Manhattan distance
 			return (Mathf.Abs(startCell.X - endCell.X) + Mathf.Abs(startCell.Y - endCell.Y)) * 10;
 		}
-		#endregion
-
 		#endregion
 
 		#region Common
