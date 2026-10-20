@@ -613,16 +613,16 @@ mesh = SubResource("TorusMesh_jgorv")
 script = ExtResource("12_rpty4")
 
 [node name="Target" type="MeshInstance3D" parent="." unique_id=1112093379]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.94413, 0, -11.886297)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, 0, -11.5)
 mesh = SubResource("SphereMesh_yji5v")
 
-[node name="PrototypeSeeker" type="MeshInstance3D" parent="." unique_id=45646236 node_paths=PackedStringArray("_targetNode")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.318624, 0, -9.516527)
+[node name="PrototypeSeeker" type="MeshInstance3D" parent="." unique_id=45646236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 0, -9.5)
 mesh = SubResource("BoxMesh_fh0sh")
 script = ExtResource("15_ug0sv")
 _algorithm = 3
 _targetNode = NodePath("../Target")
-_postProcessors = Array[Resource]([ExtResource("16_jgorv")])
+_postProcessors = [ExtResource("16_jgorv")]
 
 [node name="PathVisualizer" type="Node3D" parent="PrototypeSeeker" unique_id=1928270184]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6813755, 0, -12.483473)
