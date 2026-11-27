@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bihmedxqtvo4w"]
+
+[ext_resource type="PackedScene" uid="uid://cru6k6a3aarcl" path="res://Art/Models/GLB format/chest.glb" id="1_pod5f"]
+[ext_resource type="Script" uid="uid://c0krh5ia8eyap" path="res://Code/TreasureChest.cs" id="2_udxcs"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yky2d"]
+radius = 3.0829418
+
+[node name="chest2" unique_id=1338502981 instance=ExtResource("1_pod5f")]
+script = ExtResource("2_udxcs")
+
+[node name="lid" parent="chest" parent_id_path=PackedInt32Array(1975485668) index="0" unique_id=1364444867]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 1.7439344e-16, 0, -1.7439344e-16, 0.99999994, -9.498978e-09, 0.51, -0.51)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2" unique_id=229238976]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8922832, 0)
+shape = SubResource("SphereShape3D_yky2d")

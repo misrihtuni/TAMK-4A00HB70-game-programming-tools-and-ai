@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://bxf323gmb80ay" path="res://Code/Pathfinding/PathDebugDrawer.cs" id="16_0wsr5"]
 [ext_resource type="PackedScene" uid="uid://bprh4mkm82u83" path="res://Scenes/Ships/PlayerShip.tscn" id="18_jgorv"]
 [ext_resource type="PackedScene" uid="uid://t28oc6yqfvp2" path="res://Scenes/Ships/EnemyShip.tscn" id="19_q1ws5"]
+[ext_resource type="PackedScene" uid="uid://bihmedxqtvo4w" path="res://Scenes/LevelObjects/TreasureChest.tscn" id="21_fh0sh"]
 [ext_resource type="Script" uid="uid://dsuobah0liq4t" path="res://Code/Ship/PatrolPath/PatrolPath.cs" id="21_ulvkb"]
 [ext_resource type="Script" uid="uid://1vrpqbn60nuo" path="res://Code/Ship/PatrolPath/Waypoint.cs" id="22_fh0sh"]
 
@@ -655,3 +656,25 @@ metadata/_custom_type_script = "uid://1vrpqbn60nuo"
 [node name="PathVisualizer" type="Node3D" parent="." unique_id=1741353486]
 script = ExtResource("16_0wsr5")
 _segmentWidth = 0.5
+
+[node name="Loot" type="Node3D" parent="." unique_id=2108373998]
+
+[node name="chest2" parent="Loot" unique_id=1338502981 instance=ExtResource("21_fh0sh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 0, 0)
+_containedLoot = 1
+
+[node name="chest3" parent="Loot" unique_id=917502398 instance=ExtResource("21_fh0sh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.92348, 0, 34.84413)
+_containedLoot = 16
+
+[node name="chest4" parent="Loot" unique_id=1609574454 instance=ExtResource("21_fh0sh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.29506, 0, 26.760443)
+_containedLoot = 2
+
+[node name="chest6" parent="Loot" unique_id=495882289 instance=ExtResource("21_fh0sh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.780489, 0, 16.386763)
+_containedLoot = 2
+
+[node name="chest5" parent="Loot" unique_id=2097965236 instance=ExtResource("21_fh0sh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.753517, 0, -20.600012)
+_containedLoot = 96

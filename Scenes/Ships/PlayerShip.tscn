@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://c1c0mhln5j3fk" path="res://Code/Ship/PlayerShip.cs" id="2_mc6rq"]
 [ext_resource type="Resource" uid="uid://dp7egbqp41vi2" path="res://Data/PlayerShipData.tres" id="3_nkep0"]
 [ext_resource type="PackedScene" uid="uid://28bsh6lqsv5x" path="res://Art/Models/GLB format/cannon.glb" id="5_nh35r"]
+[ext_resource type="Script" uid="uid://b8i504lmjvg2w" path="res://Code/Ship/Inventory.cs" id="6_17ako"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yky2d"]
 radius = 2.1430664
@@ -30,3 +31,6 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.78
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.9287008, -0.12185669)
 shape = SubResource("CapsuleShape3D_yky2d")
 debug_color = Color(0.8276356, 0.0015378738, 0.9516199, 0.41960785)
+
+[node name="Inventory" type="Node" parent="." index="2" unique_id=675726252]
+script = ExtResource("6_17ako")

@@ -1,16 +1,18 @@
 using Godot;
-
+using GA.Common;
 namespace GA.Ships
 {
 	public partial class PlayerShip : ShipBase, ITarget
 	{
 		public Vector3 TargetPosition => GlobalPosition;
+		public Inventory Inventory { get; private set; }
 
 		public override void _Ready()
 		{
 			base._Ready();
 
 			Level.Current.RegisterPlayer(this);
+			Inventory = this.GetNode<Inventory>();
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -45,6 +47,12 @@ namespace GA.Ships
 
 			Velocity = velocity;
 			MoveAndSlide();
+		}
+
+		public void CollectLoot(TreasureChest.Loot loot)
+		{
+			Inventory.AddLoot(loot);
+			GD.Print(Inventory.ToString());
 		}
 	}
 }
